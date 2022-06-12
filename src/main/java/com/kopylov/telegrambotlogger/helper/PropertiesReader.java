@@ -14,7 +14,7 @@ public class PropertiesReader {
             prop.load(
                     TelegramBotLoggerApplication.class
                             .getClassLoader()
-                            .getResourceAsStream("bot.properties"));
+                            .getResourceAsStream("botlogger.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
