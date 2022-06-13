@@ -5,5 +5,7 @@ public enum DataType {
     PHOTO,
     DOCUMENT,
     VIDEO,
+    AUDIO,
+    VOICE,
     STICKER;
 }

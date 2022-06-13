@@ -3,7 +3,7 @@ package com.kopylov.telegrambotlogger.constants;
 public enum MessageType {
     SENT,
     EDITED,
-    DELETED,
+    REPLIED,
     PINNED,
     FORWARDED;
 }

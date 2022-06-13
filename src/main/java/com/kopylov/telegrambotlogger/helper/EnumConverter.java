@@ -1,4 +1,4 @@
-package com.kopylov.telegrambotlogger.util;
+package com.kopylov.telegrambotlogger.helper;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
