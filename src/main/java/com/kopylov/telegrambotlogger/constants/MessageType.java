@@ -1,7 +1,9 @@
 package com.kopylov.telegrambotlogger.constants;
 
 public enum MessageType {
-    DEFAULT,
-    UPDATED,
-    DELETED;
+    SENT,
+    EDITED,
+    DELETED,
+    PINNED,
+    FORWARDED;
 }

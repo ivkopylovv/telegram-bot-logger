@@ -1,9 +1,9 @@
 package com.kopylov.telegrambotlogger.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.kopylov.telegrambotlogger.constants.DataType;
+import com.kopylov.telegrambotlogger.constants.MessageType;
+import com.kopylov.telegrambotlogger.util.EnumConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +18,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class Message {
     @Id
-    private Long id;
-    private String text;
+    private Long messageId;
     private Date date;
-    private String type;
-    private String chatId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @Convert(converter = EnumConverter.class)
+    @Enumerated(EnumType.STRING)
+    private MessageType messageType;
+    private String text;
+    @Convert(converter = EnumConverter.class)
+    @Enumerated(EnumType.STRING)
+    private DataType dataType;
 }
