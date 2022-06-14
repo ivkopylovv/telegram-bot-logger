@@ -5,11 +5,7 @@ import com.kopylov.telegrambotlogger.entity.Users;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -23,10 +19,10 @@ public class ChatId implements Serializable {
     private Long chatId;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name="message_id", nullable=false)
+    @JoinColumn(name = "message_id", nullable = false)
     private Messages message;
 }

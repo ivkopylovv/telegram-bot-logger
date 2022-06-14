@@ -1,4 +1,4 @@
-package com.kopylov.telegrambotlogger.handler;
+package com.kopylov.telegrambotlogger.service;
 
 import com.kopylov.telegrambotlogger.dao.ChatDAO;
 import com.kopylov.telegrambotlogger.dto.ChatDto;
@@ -14,7 +14,7 @@ public class ChatService {
     private final ChatDAO chatDAO;
 
     public void saveChatEntity(ChatDto chatDto) {
-        ChatId chatId = new ChatId(chatDto.getChatId(), chatDto.getUsers(), chatDto.getMessages());
+        ChatId chatId = new ChatId(chatDto.getChatId(), chatDto.getUser(), chatDto.getMessage());
         chatDAO.save(new Chat(chatId));
     }
 }

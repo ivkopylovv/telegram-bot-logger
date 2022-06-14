@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class ChatDto {
     private Long chatId;
-    private Users users;
-    private Messages messages;
+    private Users user;
+    private Messages message;
 }

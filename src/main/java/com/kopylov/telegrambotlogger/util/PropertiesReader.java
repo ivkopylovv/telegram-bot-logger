@@ -1,4 +1,4 @@
-package com.kopylov.telegrambotlogger.helper;
+package com.kopylov.telegrambotlogger.util;
 
 import com.kopylov.telegrambotlogger.TelegramBotLoggerApplication;
 

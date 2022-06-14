@@ -1,10 +1,10 @@
-package com.kopylov.telegrambotlogger.handler;
+package com.kopylov.telegrambotlogger.service;
 
 import com.kopylov.telegrambotlogger.dao.MessageDAO;
 import com.kopylov.telegrambotlogger.dto.DataTypeDto;
 import com.kopylov.telegrambotlogger.dto.MessageTypeDto;
 import com.kopylov.telegrambotlogger.entity.Messages;
-import com.kopylov.telegrambotlogger.helper.MessageHelper;
+import com.kopylov.telegrambotlogger.util.MessageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -25,6 +25,7 @@ public class MessageService {
                 dataTypeDto.getDataType(),
                 dataTypeDto.getData()
         );
+
         return messageDAO.save(newMessage);
     }
 }
