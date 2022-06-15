@@ -4,7 +4,7 @@ import com.kopylov.telegrambotlogger.dao.MessageDAO;
 import com.kopylov.telegrambotlogger.dto.DataTypeDto;
 import com.kopylov.telegrambotlogger.dto.MessageTypeDto;
 import com.kopylov.telegrambotlogger.entity.Messages;
-import com.kopylov.telegrambotlogger.util.MessageHelper;
+import com.kopylov.telegrambotlogger.util.MessageReceiver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,8 +16,8 @@ public class MessageService {
     private final MessageDAO messageDAO;
 
     public Messages saveMessage(Message message) {
-        DataTypeDto dataTypeDto = MessageHelper.findDataType(message);
-        MessageTypeDto messageTypeDto = MessageHelper.findMessageType(message);
+        DataTypeDto dataTypeDto = MessageReceiver.findDataType(message);
+        MessageTypeDto messageTypeDto = MessageReceiver.findMessageType(message);
         Messages newMessage = new Messages(
                 Long.valueOf(message.getMessageId()),
                 messageTypeDto.getDate(),
@@ -28,4 +28,5 @@ public class MessageService {
 
         return messageDAO.save(newMessage);
     }
+
 }

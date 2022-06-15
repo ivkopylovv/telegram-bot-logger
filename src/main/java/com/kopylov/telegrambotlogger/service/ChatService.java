@@ -4,8 +4,11 @@ import com.kopylov.telegrambotlogger.dao.ChatDAO;
 import com.kopylov.telegrambotlogger.dto.ChatDto;
 import com.kopylov.telegrambotlogger.embeddable.ChatId;
 import com.kopylov.telegrambotlogger.entity.Chat;
+import com.kopylov.telegrambotlogger.entity.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -16,5 +19,9 @@ public class ChatService {
     public void saveChatEntity(ChatDto chatDto) {
         ChatId chatId = new ChatId(chatDto.getChatId(), chatDto.getUser(), chatDto.getMessage());
         chatDAO.save(new Chat(chatId));
+    }
+
+    public List<Messages> getMessagesByIdAndUsername(Long chatId, String username) {
+        return chatDAO.findMessagesByChatIdAndUsername(chatId, username);
     }
 }

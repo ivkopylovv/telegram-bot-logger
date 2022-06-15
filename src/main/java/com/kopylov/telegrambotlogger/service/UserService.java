@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -18,4 +19,5 @@ public class UserService {
                         new Users(user.getId(), user.getFirstName(), user.getLastName(), user.getUserName()))
                 );
     }
+
 }

@@ -6,12 +6,10 @@ import com.kopylov.telegrambotlogger.dto.MessageTypeDto;
 import com.kopylov.telegrambotlogger.exception.UnknownMessageContentException;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.Date;
-
 import static com.kopylov.telegrambotlogger.constants.DataType.*;
 import static com.kopylov.telegrambotlogger.constants.MessageType.*;
 
-public class MessageHelper {
+public class MessageReceiver {
 
     public static DataTypeDto findDataType(Message message) {
         if (message.getPinnedMessage() != null) {
