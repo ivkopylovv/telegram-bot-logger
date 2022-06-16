@@ -15,7 +15,7 @@ public class MessageSender {
                         MessageFormat.COMMON_FORMAT,
                         username,
                         message.getMessageType().toString().toLowerCase(),
-                        DateHelper.convertDateToString(message.getDate())))
+                        DateConverter.convertDateToString(message.getDate())))
                 .build();
     }
 
@@ -64,6 +64,14 @@ public class MessageSender {
                 .builder()
                 .chatId(chatId.toString())
                 .voice(new InputFile(message.getMessageData()))
+                .build();
+    }
+
+    public static SendAudio sendAudio(Long chatId, Messages message) {
+        return SendAudio
+                .builder()
+                .chatId(chatId.toString())
+                .audio(new InputFile(message.getMessageData()))
                 .build();
     }
 }

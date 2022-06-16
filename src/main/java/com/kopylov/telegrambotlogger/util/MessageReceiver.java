@@ -37,16 +37,16 @@ public class MessageReceiver {
     public static MessageTypeDto findMessageType(Message message) {
         if (message.getEditDate() == null) {
             if (message.getForwardDate() != null) {
-                return new MessageTypeDto(FORWARDED, DateHelper.getMessageDate(message.getForwardDate()));
+                return new MessageTypeDto(FORWARDED, DateConverter.convertIntToDate(message.getForwardDate()));
             } else if (message.isReply()) {
-                return new MessageTypeDto(REPLIED, DateHelper.getMessageDate(message.getDate()));
+                return new MessageTypeDto(REPLIED, DateConverter.convertIntToDate(message.getDate()));
             } else if (message.getPinnedMessage() != null) {
-                return new MessageTypeDto(PINNED, DateHelper.getMessageDate(message.getPinnedMessage().getDate()));
+                return new MessageTypeDto(PINNED, DateConverter.convertIntToDate(message.getPinnedMessage().getDate()));
             } else {
-                return new MessageTypeDto(SENT, DateHelper.getMessageDate(message.getDate()));
+                return new MessageTypeDto(SENT, DateConverter.convertIntToDate(message.getDate()));
             }
         } else {
-            return new MessageTypeDto(EDITED, DateHelper.getMessageDate(message.getEditDate()));
+            return new MessageTypeDto(EDITED, DateConverter.convertIntToDate(message.getEditDate()));
         }
     }
 }

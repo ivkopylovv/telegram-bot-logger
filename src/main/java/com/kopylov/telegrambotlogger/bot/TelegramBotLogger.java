@@ -2,12 +2,14 @@ package com.kopylov.telegrambotlogger.bot;
 
 import com.kopylov.telegrambotlogger.constants.ErrorMessage;
 import com.kopylov.telegrambotlogger.dto.ChatDto;
+import com.kopylov.telegrambotlogger.dto.MessagesUsernameDto;
 import com.kopylov.telegrambotlogger.entity.Messages;
 import com.kopylov.telegrambotlogger.entity.Users;
 import com.kopylov.telegrambotlogger.exception.UnknownMessageContentException;
 import com.kopylov.telegrambotlogger.service.ChatService;
 import com.kopylov.telegrambotlogger.service.MessageService;
 import com.kopylov.telegrambotlogger.service.UserService;
+import com.kopylov.telegrambotlogger.util.DateConverter;
 import com.kopylov.telegrambotlogger.util.MessageSender;
 import com.kopylov.telegrambotlogger.util.PropertiesReader;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,7 +40,11 @@ public class TelegramBotLogger extends TelegramLongPollingBot {
                 handleMessage(update);
             }
         } catch (UnknownMessageContentException e) {
-            execute(SendMessage.builder().text(e.getMessage()).build());
+            execute(SendMessage
+                    .builder()
+                    .chatId(update.getMessage().getChatId().toString())
+                    .text(e.getMessage())
+                    .build());
         }
     }
 
@@ -69,8 +76,9 @@ public class TelegramBotLogger extends TelegramLongPollingBot {
     private void handleCommand(Update update) {
         Message message = update.getMessage();
         Long chatId = message.getChatId();
-        String username = message.getFrom().getUserName();
-        List<Messages> messages = chatService.getMessagesByIdAndUsername(chatId, username);
+        MessagesUsernameDto messagesUsernameDto = getMessagesByCommandType(message, chatId);
+        List<Messages> messages = messagesUsernameDto.getMessages();
+        String username = messagesUsernameDto.getUsername();
 
         for (Messages m : messages) {
             execute(MessageSender.sendCommonMessage(username, chatId, m));
@@ -90,6 +98,9 @@ public class TelegramBotLogger extends TelegramLongPollingBot {
             case STICKER:
                 execute(MessageSender.sendSticker(chatId, message));
                 break;
+            case AUDIO:
+                execute(MessageSender.sendAudio(chatId, message));
+                break;
             case VOICE:
                 execute(MessageSender.sendVoice(chatId, message));
                 break;
@@ -102,6 +113,32 @@ public class TelegramBotLogger extends TelegramLongPollingBot {
             default:
                 throw new UnknownMessageContentException(ErrorMessage.UNKNOWN_TYPE);
         }
+    }
+
+    @SneakyThrows
+    private MessagesUsernameDto getMessagesByCommandType(Message message, Long chatId) {
+        String[] command = message.getText().split(" ");
+        int length = command.length;
+        String username;
+        List<Messages> messages;
+
+        if (length == 1) {
+            username = message.getFrom().getUserName();
+            messages = chatService.getMessagesByIdAndUsername(chatId, username);
+        } else if (length == 2) {
+            username = command[1];
+            messages = chatService.getMessagesByIdAndUsername(chatId, username);
+        } else if (length == 6) {
+            username = command[1];
+            Date startDate = DateConverter.convertStringToDate(command[2] + " " + command[3]);
+            Date endDate = DateConverter.convertStringToDate(command[4] + " " + command[5]);
+            messages = chatService
+                    .getMessagesByChatIdAndUsernameAndPeriod(chatId, username, startDate, endDate);
+        } else {
+            throw new UnknownMessageContentException(ErrorMessage.UNKNOWN_TYPE);
+        }
+
+        return new MessagesUsernameDto(messages, username);
     }
 }
 
